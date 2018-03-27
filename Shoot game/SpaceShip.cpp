@@ -11,17 +11,22 @@ SpaceShip::SpaceShip(float x_, float y_, float velocity_, const char * spritePat
 	this->maxY = maxY_;
 	this->velocity = velocity_;
 	this->move = false;
+	this->stringPath = spritePath;
 
-	if (!(this->bitmap = al_load_bitmap(spritePath)))
-		fprintf(stderr, "Shooter's Bitmap not allocated\n");
+	
+}
 
+void SpaceShip::init()
+{
+	this->bitmap = al_load_bitmap(this->stringPath);
 	this->width = al_get_bitmap_width(this->bitmap);
 	this->height = al_get_bitmap_height(this->bitmap);
 }
 
 SpaceShip::~SpaceShip()
 {
-	al_destroy_bitmap(this->bitmap);
+	if (this->bitmap)
+		al_destroy_bitmap(this->bitmap);
 }
 
 void SpaceShip::draw()

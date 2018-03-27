@@ -182,16 +182,20 @@ int main()
 	if (resourcesLoaded(initResources, LAST))
 	{
 		shooterMan shooter(INITIALX_SHOOTER, INITIALY_SHOOTER, SPRITE_SHOOTER, SPEED_SHOOTER,DISPLAYW,DISPLAYH);
+		shooter.init();
 		bullet shot(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()), HEIGHT_BULLET, WIDTH_BULLET, YSPEED_BULLET, SPRITE_BULLET,XSPEED_BULLET,DISPLAYW,DISPLAYH);
 		target mainTarget(INITIALX_TARGET, INITIALY_TARGET, SPEED_TARGET,DISPLAYW, DISPLAYH, SPRITE_TARGET);
+		mainTarget.init();
 		//target secondaryTarget(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET);
 
 		vector<target> drones;
-		drones.reserve(2);
-		drones.emplace_back(target(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET));
-		drones.emplace_back(target(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET));
-		
-		
+		drones.reserve(3);
+		for (int i = 1; i < 4; ++i)
+			drones.emplace_back(target(INITIALX_STARGET, INITIALY_STARGET * i, SPEED_STARGET * i, DISPLAYW, DISPLAYH, SPRITE_STARGET));
+
+		for (target& ship : drones)
+			ship.init();
+
 		al_register_event_source(eventQueue, al_get_display_event_source(display));
 		al_register_event_source(eventQueue, al_get_timer_event_source(timer));
 #ifdef MOUSE_C
@@ -258,13 +262,22 @@ int main()
 					else
 						if (mainTarget.collision(&shot))
 							shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
-						else if (drones[0].collision(&shot))
-							shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
+						else 
+							for (target& ship : drones)
+							{
+								if(ship.collision(&shot))
+									shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
+
+							}
 					
 					shooter.update();
 					shot.update();
-					drones[0].setMovement();
-					drones[0].update();
+					for (target& ship : drones)
+					{
+						ship.setMovement();
+						ship.update();
+					}
+					
 					draw = true;
 
 				}
@@ -276,7 +289,14 @@ int main()
 				shooter.draw();
 				shot.draw();
 				mainTarget.draw();
-				drones[0].draw();
+
+				for (target& ship : drones)
+				{
+					ship.draw();
+				}
+
+		
+
 				al_flip_display();
 				draw = false;
 				

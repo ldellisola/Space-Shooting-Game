@@ -9,11 +9,13 @@ class SpaceShip
 public:
 	SpaceShip(float x_, float y_, float velocity_, const char * spritePath, float maxX_, float maxY_);
 	~SpaceShip();
+	void init();
 	void draw();
 	void update();
 	void setMovement(int direction);
 	float getXValue();
 	float getYValue();
+	
 
 protected:
 	int move;
@@ -24,7 +26,8 @@ protected:
 	int width;
 	int height;
 	float velocity;
-	ALLEGRO_BITMAP * bitmap;
+	const char * stringPath;
+	ALLEGRO_BITMAP * bitmap = NULL;
 
 
 };

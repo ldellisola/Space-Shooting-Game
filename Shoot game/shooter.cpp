@@ -13,6 +13,7 @@ void shooterMan::update()
 	case MOVELEFT:
 		if (this->x + this->velocity * this->move >= -this->width/4.0)
 			SpaceShip::update();
+		break;
 	}
 
 
