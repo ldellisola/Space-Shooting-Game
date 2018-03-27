@@ -7,7 +7,7 @@
 class SpaceShip
 {
 public:
-	SpaceShip(float x_, float y_, float velocity_, int width_, int height_, const char * spritePath, float maxX_, float maxY_);
+	SpaceShip(float x_, float y_, float velocity_, const char * spritePath, float maxX_, float maxY_);
 	~SpaceShip();
 	void draw();
 	void update();

@@ -6,7 +6,8 @@ class shooterMan : public SpaceShip
 {
 public:
 	
-	shooterMan(float x_, float y_, int width_, int height_, const char * spritePath, float velocity_, float maxX_, float maxY_)
-		:SpaceShip(x_, y_, velocity_, width_, height_, spritePath, maxX_, maxY_) {}
+	shooterMan(float x_, float y_, const char * spritePath, float velocity_, float maxX_, float maxY_)
+		:SpaceShip(x_, y_, velocity_, spritePath, maxX_, maxY_) {}
+	void update();
 };
 

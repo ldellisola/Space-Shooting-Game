@@ -181,14 +181,14 @@ int main()
 
 	if (resourcesLoaded(initResources, LAST))
 	{
-		shooterMan shooter(INITIALX_SHOOTER, INITIALY_SHOOTER, WIDTH_SHOOTER, HEIGHT_SHOOTER, SPRITE_SHOOTER, SPEED_SHOOTER,DISPLAYW,DISPLAYH);
+		shooterMan shooter(INITIALX_SHOOTER, INITIALY_SHOOTER, SPRITE_SHOOTER, SPEED_SHOOTER,DISPLAYW,DISPLAYH);
 		bullet shot(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()), HEIGHT_BULLET, WIDTH_BULLET, YSPEED_BULLET, SPRITE_BULLET,XSPEED_BULLET,DISPLAYW,DISPLAYH);
-		target mainTarget(INITIALX_TARGET, INITIALY_TARGET, SPEED_TARGET, WIDTH_TARGET, HEIGHT_TARGET, DISPLAYW, DISPLAYH, SPRITE_TARGET);
-		target secondaryTarget(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, WIDTH_STARGET, HEIGHT_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET);
+		target mainTarget(INITIALX_TARGET, INITIALY_TARGET, SPEED_TARGET,DISPLAYW, DISPLAYH, SPRITE_TARGET);
+		//target secondaryTarget(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET);
 
-	//	vector<target> drones;
+		vector<target> drones;
 
-	//	drones.
+		drones.push_back(target(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET));
 		
 		al_register_event_source(eventQueue, al_get_display_event_source(display));
 		al_register_event_source(eventQueue, al_get_timer_event_source(timer));
@@ -256,13 +256,13 @@ int main()
 					else
 						if (mainTarget.collision(&shot))
 							shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
-						else if (secondaryTarget.collision(&shot))
+						else if (drones[0].collision(&shot))
 							shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
 					
 					shooter.update();
 					shot.update();
-					secondaryTarget.setMovement();
-					secondaryTarget.update();
+					drones[0].setMovement();
+					drones[0].update();
 					draw = true;
 
 				}
@@ -274,7 +274,7 @@ int main()
 				shooter.draw();
 				shot.draw();
 				mainTarget.draw();
-				secondaryTarget.draw();
+				drones[0].draw();
 				al_flip_display();
 				draw = false;
 				
