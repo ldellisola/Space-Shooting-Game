@@ -81,7 +81,7 @@
 #define SPEED_STARGET (8.0)
 #define WIDTH_STARGET (100)
 #define HEIGHT_STARGET (100)
-#define SPRITE_STARGET "CapAmShield.png"
+#define SPRITE_STARGET "Dirty Tile.png"
 
 
 using namespace std;
@@ -187,8 +187,10 @@ int main()
 		//target secondaryTarget(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET);
 
 		vector<target> drones;
-
-		drones.push_back(target(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET));
+		drones.reserve(2);
+		drones.emplace_back(target(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET));
+		drones.emplace_back(target(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET));
+		
 		
 		al_register_event_source(eventQueue, al_get_display_event_source(display));
 		al_register_event_source(eventQueue, al_get_timer_event_source(timer));
