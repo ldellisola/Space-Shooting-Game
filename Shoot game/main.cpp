@@ -307,6 +307,8 @@ int main()
 									for (int a = 1; a < s; ++a)
 										drones.pop_back();
 									Level.gameMenu = true;
+									Level.number = 1;
+									Level.newLevelAchieved = false;
 								}
 
 							}
