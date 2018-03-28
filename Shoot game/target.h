@@ -10,6 +10,7 @@ public:
 		:SpaceShip(x_, y_, velocity_, spritePath, maxX_,maxY_) {}
 	bool collision(bullet * shot);
 	void setMovement();
+	void draw();
 	
 };
 

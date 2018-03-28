@@ -6,21 +6,23 @@
 class bullet
 {
 public:
-	bullet(float x_, float y_, int height_, int width_, float yVelocity_, const char * imagePath, float xVelocity_, float maxX_, float maxY_);
+	bullet(float x_, float y_, float yVelocity_, const char * imagePath, float xVelocity_, float maxX_, float maxY_);
 	void startOver(float x_, float y_);
-	float getXCoord();
-	int getWidth();
 	void setMovementEffect(int direction);
-	float getYValue();
+	
 	void update();
 	bool isActive();
 	void fire();
 	void draw();
 	~bullet();
+
+	float getXCoord();
+	float getYValue();
+	int getWidth();
 private:
 	bool yActive;
 	int xActive;
-	float x;
+	float x;			// Es el valor del medio del sprite
 	float y;
 	int height;
 	int width;

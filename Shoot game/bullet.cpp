@@ -2,19 +2,25 @@
 
 
 
-bullet::bullet(float x_, float y_, int height_, int width_, float yVelocity_, const char * spritePath, float xVelocity_, float maxX_, float maxY_)
+bullet::bullet(float x_, float y_, float yVelocity_, const char * spritePath, float xVelocity_, float maxX_, float maxY_)
 {
-	this->x = x_;
-	this->y = y_;
-	this->height = height_;
-	this->width = width_;
-	this->yVelocity = yVelocity_;
-	this->xVelocity = xVelocity_;
-	this->yActive = false;
-	this->xActive = 0;
-	this->bitmap = al_load_bitmap(spritePath);
 	this->maxX = maxX_;
 	this->maxY = maxY_;
+
+	this->yVelocity = yVelocity_;
+	this->xVelocity = xVelocity_;
+
+	this->yActive = false;
+	this->xActive = 0;
+
+	this->bitmap = al_load_bitmap(spritePath);
+	this->width = al_get_bitmap_width(this->bitmap);
+	this->height = al_get_bitmap_height(this->bitmap);
+
+	this->x = x_ - this->width / 2.0; 
+	this->y = y_ - this->height / 2.0;
+
+
 }
 
 void bullet::update()

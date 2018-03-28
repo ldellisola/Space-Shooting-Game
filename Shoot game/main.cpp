@@ -68,7 +68,6 @@
 // Important Target Constants
 #include "target.h"
 #define WIDTH_TARGET (DISPLAYW /10.0)
-#define HEIGHT_TARGET (DISPLAYH / 15.0)
 #define YOFFSET_TARGET (100)
 #define INITIALX_TARGET (DISPLAYW /2.0 - WIDTH_TARGET/2.0)
 #define INITIALY_TARGET (YOFFSET_TARGET)
