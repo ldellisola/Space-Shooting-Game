@@ -20,6 +20,7 @@ void SpaceShip::init()
 {
 	this->bitmap = al_load_bitmap(this->stringPath);
 	this->width = al_get_bitmap_width(this->bitmap);
+	this->x -= this->width / 2.0;
 	this->height = al_get_bitmap_height(this->bitmap);
 }
 

@@ -50,7 +50,7 @@ void bullet::startOver(float x_, float y_)
 	this->yActive = false;
 }
 
-float bullet::getXCoord()
+float bullet::getXValue()
 {
 	return this->x;
 }
@@ -58,6 +58,11 @@ float bullet::getXCoord()
 int bullet::getWidth()
 {
 	return this->width;
+}
+
+int bullet::getHeight()
+{
+	return this->height;
 }
 
 void bullet::setMovementEffect(int direction)

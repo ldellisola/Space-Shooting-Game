@@ -16,9 +16,11 @@ public:
 	void draw();
 	~bullet();
 
-	float getXCoord();
+	float getXValue();
 	float getYValue();
 	int getWidth();
+	int getHeight();
+
 private:
 	bool yActive;
 	int xActive;

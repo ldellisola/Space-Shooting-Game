@@ -44,42 +44,28 @@
 
 // Important Shooter Constants
 #include "shooter.h"
-#define WIDTH_SHOOTER (DISPLAYW / 5.0)
-#define HEIGHT_SHOOTER (DISPLAYH / 10.0)
-#define YOFFSET_SHOOTER (DISPLAYH / 20.0)
-#define INITIALX_SHOOTER ((DISPLAYW /2.0)- (WIDTH_SHOOTER/2.0))
-#define INITIALY_SHOOTER (DISPLAYH -HEIGHT_SHOOTER - YOFFSET_SHOOTER)
+#define YOFFSET_SHOOTER (DISPLAYH / 10.0)
+#define INITIALX_SHOOTER ((DISPLAYW /2.0))
+#define INITIALY_SHOOTER (DISPLAYH - YOFFSET_SHOOTER)
 #define SPEED_SHOOTER (10.0)
 #define SPRITE_SHOOTER "shooter.png"
 
-
-
-
 // Important Bullet Constants
-#include "bullet.h"
-#define WIDTH_BULLET (DISPLAYW /20.0)
-#define HEIGHT_BULLET (WIDTH_BULLET)
-#define INITIALX_BULLET(X) (X + (WIDTH_SHOOTER/2.0) - WIDTH_BULLET/2.0 +5)
-#define INITIALY_BULLET(Y) (Y - WIDTH_BULLET/3.5 )
 #define YSPEED_BULLET (8.0)
 #define SPRITE_BULLET "bullet.png"
 #define XSPEED_BULLET (1.0)
 
 // Important Target Constants
 #include "target.h"
-#define WIDTH_TARGET (DISPLAYW /10.0)
 #define YOFFSET_TARGET (100)
-#define INITIALX_TARGET (DISPLAYW /2.0 - WIDTH_TARGET/2.0)
+#define INITIALX_TARGET (DISPLAYW /2.0)
 #define INITIALY_TARGET (YOFFSET_TARGET)
 #define SPEED_TARGET (0)
 #define SPRITE_TARGET "MainTarget.png"
 
-
+#define SPEED_STARGET (3)
 #define INITIALX_STARGET (0)
 #define INITIALY_STARGET (YOFFSET_TARGET + DISPLAYH / 10.0)
-#define SPEED_STARGET (8.0)
-#define WIDTH_STARGET (100)
-#define HEIGHT_STARGET (100)
 #define SPRITE_STARGET "SecTarget.png"
 
 // Important Scoreboard Constatns
@@ -192,7 +178,7 @@ int main()
 	{
 		shooterMan shooter(INITIALX_SHOOTER, INITIALY_SHOOTER, SPRITE_SHOOTER, SPEED_SHOOTER,DISPLAYW,DISPLAYH);
 		shooter.init();
-		bullet shot(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()), HEIGHT_BULLET, WIDTH_BULLET, YSPEED_BULLET, SPRITE_BULLET,XSPEED_BULLET,DISPLAYW,DISPLAYH);
+		shooter.createBullet(SPRITE_BULLET, XSPEED_BULLET, YSPEED_BULLET);
 		target mainTarget(INITIALX_TARGET, INITIALY_TARGET, SPEED_TARGET,DISPLAYW, DISPLAYH, SPRITE_TARGET);
 		mainTarget.init();
 		ScoreBoard board(INITIALX_SCORE, INITIALY_SCORE, WIDTH_SCORE, HEIGHT_SCORE, FONTSIZE_SCORE,(string) "" , FONTPATH_SCORE, FONTCOLOR_SCORE);
@@ -235,8 +221,8 @@ int main()
 					switch (ev.keyboard.keycode)
 					{
 					case ALLEGRO_KEY_SPACE:
-						if (!shot.isActive())
-							shot.fire();
+						if (! shooter.bulletIsActive())
+							shooter.bulletFire();
 						break;
 					case ALLEGRO_KEY_ESCAPE:
 						keep = false;
@@ -248,36 +234,36 @@ int main()
 						shooter.setMovement(MOVERIGHT);
 						break;
 					case ALLEGRO_KEY_A:
-						shot.setMovementEffect(MOVELEFT);
+						shooter.bulletMoveLeft();
 						break;
 					case ALLEGRO_KEY_D:
-						shot.setMovementEffect(MOVERIGHT);
+						shooter.bulletMoveRight();
 						break;
 					}
 					break;
 				case ALLEGRO_EVENT_KEY_UP:
 					shooter.setMovement(NOMOVE);
-					shot.setMovementEffect(NOMOVE);
+					shooter.bulletDontMove();
 					break;
 				
 
 				case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
 					break;
 				case ALLEGRO_EVENT_TIMER:
-					if (!shot.isActive())
-						shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
+					if (!shooter.bulletIsActive())
+						shooter.bulletStartOver();
 					else
-						if (mainTarget.collision(&shot))
+						if (mainTarget.collision(shooter.bulletGetTopLeftX(),shooter.bulletGetTopLeftY(), shooter.bulletGetBotRightX(), shooter.bulletGetBotRightY())) // Tengo que repensar esto. no deberia mandar el objeto
 						{
-							shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
+							shooter.bulletStartOver();
 							board.updateScore();
 						}
 						else 
 							for (target& ship : drones)
 							{
-								if (ship.collision(&shot))
+								if (ship.collision(shooter.bulletGetTopLeftX(), shooter.bulletGetTopLeftY(), shooter.bulletGetBotRightX(), shooter.bulletGetBotRightY()))
 								{
-									shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
+									shooter.bulletStartOver();
 									board.reset();
 								}
 
@@ -288,8 +274,6 @@ int main()
 					mainTarget.draw();
 					shooter.update();
 					shooter.draw();
-					shot.update();
-					shot.draw();
 					for (target& ship : drones)
 					{
 						ship.setMovement();
