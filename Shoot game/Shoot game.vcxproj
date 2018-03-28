@@ -130,6 +130,7 @@
     <ClCompile Include="shooter.cpp" />
     <ClCompile Include="SpaceShip.cpp" />
     <ClCompile Include="target.cpp" />
+    <ClCompile Include="WrittenBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -140,6 +141,7 @@
     <ClInclude Include="shooter.h" />
     <ClInclude Include="SpaceShip.h" />
     <ClInclude Include="target.h" />
+    <ClInclude Include="WrittenBox.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

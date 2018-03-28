@@ -110,7 +110,6 @@ int main()
 
 	
 	bool keep = true;
-	bool draw = false;
 
 
 	bool initResources[LAST];
@@ -221,7 +220,6 @@ int main()
 				{
 				case ALLEGRO_EVENT_DISPLAY_CLOSE:
 					keep = false;
-					draw = false;
 					break;
 				case ALLEGRO_EVENT_KEY_DOWN:
 					switch (ev.keyboard.keycode)
@@ -232,7 +230,6 @@ int main()
 						break;
 					case ALLEGRO_KEY_ESCAPE:
 						keep = false;
-						draw = false;
 						break;
 					case ALLEGRO_KEY_LEFT:
 						shooter.setMovement(MOVELEFT);
@@ -269,40 +266,23 @@ int main()
 									shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
 
 							}
-					
+
+					al_draw_bitmap(screen, 0, 0, 0);				
+					mainTarget.draw();
 					shooter.update();
+					shooter.draw();
 					shot.update();
+					shot.draw();
 					for (target& ship : drones)
 					{
 						ship.setMovement();
 						ship.update();
+						ship.draw();
 					}
-					
-					draw = true;
 
+					al_flip_display();
 				}
 			}
-
-			if (draw && al_is_event_queue_empty(eventQueue))
-			{
-				al_draw_bitmap(screen, 0, 0, 0);
-				shooter.draw();
-				shot.draw();
-				mainTarget.draw();
-
-				for (target& ship : drones)
-				{
-					ship.draw();
-				}
-
-		
-
-				al_flip_display();
-				draw = false;
-				
-			}
-
-
 		}
 
 	}

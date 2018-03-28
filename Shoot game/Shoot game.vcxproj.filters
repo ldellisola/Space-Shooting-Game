@@ -30,6 +30,9 @@
     <ClCompile Include="SpaceShip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WrittenBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImportantConstats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WrittenBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
