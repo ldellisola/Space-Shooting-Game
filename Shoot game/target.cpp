@@ -17,7 +17,7 @@ void target::setMovement()
 {
 	if ((this->x <= 0))
 		SpaceShip::setMovement(MOVERIGHT);
-	else if (this->x + this->width >= al_get_display_width(al_get_current_display()))
+	else if (this->x + this->width >= this->maxX)
 		SpaceShip::setMovement(MOVELEFT);
 
 
@@ -34,8 +34,7 @@ void target::draw()
 		al_draw_bitmap(this->bitmap, this->x, this->y, 0);
 		break;
 	case MOVELEFT:
-		al_draw_bitmap(this->bitmap, this->x, this->y, 0);
-		al_draw_rotated_bitmap(this->bitmap,this->width/2.0 ,this->height/2.0 , this->x, this->y, ALLEGRO_PI, 0);
+		al_draw_rotated_bitmap(this->bitmap,this->width/2.0 ,this->height/2.0 , this->x + this->width/2.0 , this->y + this->height/2.0, ALLEGRO_PI, 0);
 		break;
 
 	

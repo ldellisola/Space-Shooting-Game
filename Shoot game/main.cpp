@@ -64,7 +64,8 @@
 #define SPRITE_TARGET "MainTarget.png"
 
 #define SPEED_STARGET (3)
-#define INITIALX_STARGET (0)
+#define NEW_STARGET_OFFSET (100)
+#define INITIALX_STARGET (50)
 #define INITIALY_STARGET (YOFFSET_TARGET + DISPLAYH / 10.0)
 #define SPRITE_STARGET "SecTarget.png"
 
@@ -77,6 +78,30 @@
 #define FONTSIZE_SCORE (30)
 #define FONTPATH_SCORE "poke_font.ttf"
 #define FONTCOLOR_SCORE "white"
+
+// Important Scoreboard Constatns
+#include "StartBoard.h"
+#define INITIALX_MENU (0)
+#define INITIALY_MENU (DISPLAYH/2.0)
+#define WIDTH_MENU (DISPLAYW)
+#define HEIGHT_MENU (300)
+#define FONTSIZE_MENU (50)
+#define FONTPATH_MENU "poke_font.ttf"
+#define FONTCOLOR_MENU "white"
+#define STRING_MENU "Hello, press 'space' to play..."
+
+#define HITSPERLEVEL (2)
+
+
+typedef struct {
+	unsigned int number = 1;
+	bool newLevelAchieved = false;
+	bool gameMenu = true;
+	void newLevel() {
+		++number;
+		newLevelAchieved = true;
+	}
+}level_t;
 
 
 
@@ -179,17 +204,18 @@ int main()
 		shooterMan shooter(INITIALX_SHOOTER, INITIALY_SHOOTER, SPRITE_SHOOTER, SPEED_SHOOTER,DISPLAYW,DISPLAYH);
 		shooter.init();
 		shooter.createBullet(SPRITE_BULLET, XSPEED_BULLET, YSPEED_BULLET);
+		
 		target mainTarget(INITIALX_TARGET, INITIALY_TARGET, SPEED_TARGET,DISPLAYW, DISPLAYH, SPRITE_TARGET);
 		mainTarget.init();
+		
+		StartBoard menu(INITIALX_MENU, INITIALY_MENU, WIDTH_MENU, HEIGHT_MENU, FONTSIZE_MENU, (string)STRING_MENU, FONTPATH_MENU, FONTCOLOR_MENU);
 		ScoreBoard board(INITIALX_SCORE, INITIALY_SCORE, WIDTH_SCORE, HEIGHT_SCORE, FONTSIZE_SCORE,(string) "" , FONTPATH_SCORE, FONTCOLOR_SCORE);
 		
-		vector<target> drones;
-		drones.reserve(3);
-		for (int i = 1; i < 4; ++i)
-			drones.emplace_back(target(INITIALX_STARGET, INITIALY_STARGET * i, SPEED_STARGET * i, DISPLAYW, DISPLAYH, SPRITE_STARGET));
+		level_t Level;
 
-		for (target& ship : drones)
-			ship.init();
+		vector<target> drones;
+		drones.push_back(target(INITIALX_STARGET, INITIALY_STARGET , SPEED_STARGET , DISPLAYW, DISPLAYH, SPRITE_STARGET));
+		drones[0].init();
 
 		al_register_event_source(eventQueue, al_get_display_event_source(display));
 		al_register_event_source(eventQueue, al_get_timer_event_source(timer));
@@ -221,8 +247,14 @@ int main()
 					switch (ev.keyboard.keycode)
 					{
 					case ALLEGRO_KEY_SPACE:
-						if (! shooter.bulletIsActive())
-							shooter.bulletFire();
+						if (!Level.gameMenu)
+						{
+							if (!shooter.bulletIsActive())
+								shooter.bulletFire();
+						}
+						else
+							Level.gameMenu = false;
+
 						break;
 					case ALLEGRO_KEY_ESCAPE:
 						keep = false;
@@ -257,29 +289,55 @@ int main()
 						{
 							shooter.bulletStartOver();
 							board.updateScore();
+
+							if (!(board.getScore() % HITSPERLEVEL))
+								Level.newLevel();
 						}
-						else 
-							for (target& ship : drones)
+						else
+						{
+							bool reset = false;
+							for (int i = 0; !reset && i < drones.size(); ++i)
 							{
-								if (ship.collision(shooter.bulletGetTopLeftX(), shooter.bulletGetTopLeftY(), shooter.bulletGetBotRightX(), shooter.bulletGetBotRightY()))
+								if (drones[i].collision(shooter.bulletGetTopLeftX(), shooter.bulletGetTopLeftY(), shooter.bulletGetBotRightX(), shooter.bulletGetBotRightY()))
 								{
 									shooter.bulletStartOver();
 									board.reset();
+									reset = true;
+									int s = drones.size();
+									for (int a = 1; a < s; ++a)
+										drones.pop_back();
+									Level.gameMenu = true;
 								}
 
 							}
-
+						}
+					if (Level.newLevelAchieved)
+					{
+						drones.push_back(target(INITIALX_STARGET, INITIALY_STARGET + NEW_STARGET_OFFSET * (Level.number-1), SPEED_STARGET + 2* Level.number, DISPLAYW, DISPLAYH, SPRITE_STARGET));
+						for (target& ship : drones)
+							ship.init();			// This is crap and it will eventually affect my program, but i don't think i'll have enought drones to fuck this up
+						Level.newLevelAchieved = false;
+					}
+					if (!Level.gameMenu)
+						shooter.update();
+					
 					al_draw_bitmap(screen, 0, 0, 0);	
 					board.draw();
 					mainTarget.draw();
-					shooter.update();
 					shooter.draw();
+
 					for (target& ship : drones)
 					{
-						ship.setMovement();
-						ship.update();
+						if (!Level.gameMenu)
+						{
+							ship.setMovement();
+							ship.update();
+						}
 						ship.draw();
 					}
+
+					if (Level.gameMenu)
+						menu.draw();
 
 					al_flip_display();
 				}

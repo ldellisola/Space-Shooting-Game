@@ -11,6 +11,7 @@ WrittenBox::WrittenBox(float x_, float y_, float width_, float height_, int font
 	this->y = y_;
 	this->width = width_;
 	this->height = height_;
+	this->text = text_;
 	this->bitmap = al_create_bitmap(width_, height_);
 	this->font = al_load_font(fontPath, -fontSize_, ALLEGRO_ALIGN_CENTRE);
 	this->fontColor = al_color_name(fontColor);
