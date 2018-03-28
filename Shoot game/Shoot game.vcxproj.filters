@@ -33,6 +33,9 @@
     <ClCompile Include="WrittenBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -56,5 +59,25 @@
     <ClInclude Include="WrittenBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreBoard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bullet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="MainTarget.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SecTarget.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="shooter.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="space.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

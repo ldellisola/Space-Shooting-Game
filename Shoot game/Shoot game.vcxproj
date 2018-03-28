@@ -79,6 +79,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="shooter.cpp" />
     <ClCompile Include="SpaceShip.cpp" />
     <ClCompile Include="target.cpp" />
@@ -138,10 +142,18 @@
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="ImportantConstats.h" />
+    <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="shooter.h" />
     <ClInclude Include="SpaceShip.h" />
     <ClInclude Include="target.h" />
     <ClInclude Include="WrittenBox.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bullet.png" />
+    <Image Include="MainTarget.png" />
+    <Image Include="SecTarget.png" />
+    <Image Include="shooter.png" />
+    <Image Include="space.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

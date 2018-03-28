@@ -6,7 +6,7 @@
 
 // Important compiling stuff
 
-//#define FONT_C
+#define FONT_C
 //#define AUDIO_C
 #define KEYBOARD_C
 #define MOUSE_C
@@ -73,7 +73,7 @@
 #define INITIALX_TARGET (DISPLAYW /2.0 - WIDTH_TARGET/2.0)
 #define INITIALY_TARGET (YOFFSET_TARGET)
 #define SPEED_TARGET (0)
-#define SPRITE_TARGET "Dirty Tile.png"
+#define SPRITE_TARGET "MainTarget.png"
 
 
 #define INITIALX_STARGET (0)
@@ -81,7 +81,18 @@
 #define SPEED_STARGET (8.0)
 #define WIDTH_STARGET (100)
 #define HEIGHT_STARGET (100)
-#define SPRITE_STARGET "Dirty Tile.png"
+#define SPRITE_STARGET "SecTarget.png"
+
+// Important Scoreboard Constatns
+#include "ScoreBoard.h"
+#define INITIALX_SCORE (0)
+#define INITIALY_SCORE (0)
+#define WIDTH_SCORE (200)
+#define HEIGHT_SCORE (100)
+#define FONTSIZE_SCORE (30)
+#define FONTPATH_SCORE "pokefont.ttf"
+#define FONTCOLOR_SCORE "white"
+
 
 
 using namespace std;
@@ -151,8 +162,8 @@ int main()
 		if (al_init_ttf_addon())
 		{
 			initResources[TTFADDON] = true;
-			if (font = al_load_ttf_font(FONTPATH, FONTSIZE, 0))
-				initResources[FONT];
+		
+				initResources[FONT] = true;
 		}
 #else
 		initResources[TTFADDON] = true;
@@ -185,8 +196,8 @@ int main()
 		bullet shot(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()), HEIGHT_BULLET, WIDTH_BULLET, YSPEED_BULLET, SPRITE_BULLET,XSPEED_BULLET,DISPLAYW,DISPLAYH);
 		target mainTarget(INITIALX_TARGET, INITIALY_TARGET, SPEED_TARGET,DISPLAYW, DISPLAYH, SPRITE_TARGET);
 		mainTarget.init();
-		//target secondaryTarget(INITIALX_STARGET, INITIALY_STARGET, SPEED_STARGET, DISPLAYW, DISPLAYH, SPRITE_STARGET);
-
+		ScoreBoard board(INITIALX_SCORE, INITIALY_SCORE, WIDTH_SCORE, HEIGHT_SCORE, FONTSIZE_SCORE, NULL, FONTPATH_SCORE, FONTCOLOR_SCORE);
+		
 		vector<target> drones;
 		drones.reserve(3);
 		for (int i = 1; i < 4; ++i)
@@ -258,16 +269,23 @@ int main()
 						shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
 					else
 						if (mainTarget.collision(&shot))
+						{
 							shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
+							board.updateScore();
+						}
 						else 
 							for (target& ship : drones)
 							{
-								if(ship.collision(&shot))
+								if (ship.collision(&shot))
+								{
 									shot.startOver(INITIALX_BULLET(shooter.getXValue()), INITIALY_BULLET(shooter.getYValue()));
+									board.reset();
+								}
 
 							}
 
-					al_draw_bitmap(screen, 0, 0, 0);				
+					al_draw_bitmap(screen, 0, 0, 0);	
+					board.draw();
 					mainTarget.draw();
 					shooter.update();
 					shooter.draw();

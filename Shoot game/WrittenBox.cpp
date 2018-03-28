@@ -26,5 +26,5 @@ WrittenBox::~WrittenBox()
 
 void WrittenBox::draw()
 {
-	al_draw_text(this->font,this->fontColor,this->width/2.0,this->height/2.0, ALLEGRO_ALIGN_CENTRE,this->text.c_str())
+	al_draw_text(this->font, this->fontColor, this->width / 2.0, this->height / 2.0, ALLEGRO_ALIGN_CENTRE, this->text.c_str());
 }
