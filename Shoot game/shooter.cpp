@@ -1,43 +1,43 @@
 #include "shooter.h"
 
-void shooterMan::createBullet(const char * spritePath_, float speedX_, float speedY_)
+void Shooter::createBullet(const char * spritePath_, float speedX_, float speedY_)
 {
 	this->shot = new bullet(this->x + (this->width / 2.0) + 5, this->y, speedY_, spritePath_, speedX_, this->maxX, this->maxY);
 }
 
-void shooterMan::bulletStartOver()
+void Shooter::bulletStartOver()
 {
 	this->shot->startOver(this->x + (this->width / 2.0) - (this->shot->getWidth() / 2.0) + 5, this->y - (this->shot->getHeight() / 2.0));
 }
 
-void shooterMan::bulletFire()
+void Shooter::bulletFire()
 {
 	this->shot->fire();
 }
 
-void shooterMan::bulletMoveLeft()
+void Shooter::bulletMoveLeft()
 {
 	this->shot->setMovementEffect(MOVELEFT);
 }
 
-void shooterMan::bulletMoveRight()
+void Shooter::bulletMoveRight()
 {
 	this->shot->setMovementEffect(MOVERIGHT);
 }
 
-void shooterMan::bulletDontMove()
+void Shooter::bulletDontMove()
 {
 	this->shot->setMovementEffect(NOMOVE);
 }
 
 
 
-shooterMan::~shooterMan()
+Shooter::~Shooter()
 {
 	delete this->shot;
 }
 
-void shooterMan::update()
+void Shooter::update()
 {
 	switch (this->move)
 	{
@@ -58,33 +58,33 @@ void shooterMan::update()
 
 }
 
-void shooterMan::draw()
+void Shooter::draw()
 {
 	SpaceShip::draw();
 	this->shot->draw();
 }
 
-bool shooterMan::bulletIsActive()
+bool Shooter::bulletIsActive()
 {
 	return this->shot->isActive();
 }
 
-float shooterMan::bulletGetTopLeftX()
+float Shooter::bulletGetTopLeftX()
 {
 	return this->shot->getXValue();
 }
 
-float shooterMan::bulletGetTopLeftY()
+float Shooter::bulletGetTopLeftY()
 {
 	return this->shot->getYValue();
 }
 
-float shooterMan::bulletGetBotRightX()
+float Shooter::bulletGetBotRightX()
 {
 	return this->shot->getXValue() + this->shot->getWidth();
 }
 
-float shooterMan::bulletGetBotRightY()
+float Shooter::bulletGetBotRightY()
 {
 	return this->shot->getYValue() + this->shot->getHeight();
 }

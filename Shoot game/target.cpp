@@ -1,6 +1,6 @@
 #include "target.h"
 
-bool target::collision(float Ax, float Ay, float Dx, float Dy) // A is the top left and D bottom right
+bool Target::collision(float Ax, float Ay, float Dx, float Dy) // A is the top left and D bottom right
 {
 	bool retValue = false;
 
@@ -13,7 +13,7 @@ bool target::collision(float Ax, float Ay, float Dx, float Dy) // A is the top l
 
 
 
-void target::setMovement()
+void Target::setMovement()
 {
 	if ((this->x <= 0))
 		SpaceShip::setMovement(MOVERIGHT);
@@ -23,7 +23,7 @@ void target::setMovement()
 
 }
 
-void target::draw()
+void Target::draw()
 {
 	switch (this->move)
 	{

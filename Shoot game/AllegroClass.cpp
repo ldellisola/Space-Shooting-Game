@@ -120,6 +120,10 @@ void AllegroClass::updateDisplay()
 {
 	al_flip_display();
 }
+ALLEGRO_EVENT_QUEUE * AllegroClass::getEventQueue()
+{
+	return this->eventQueue;
+}
 #endif
 
 #ifdef AUDIO_C

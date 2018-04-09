@@ -136,6 +136,8 @@
   <ItemGroup>
     <ClCompile Include="AllegroClass.cpp" />
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="shooter.cpp" />
@@ -150,6 +152,8 @@
   <ItemGroup>
     <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="EventHandler.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="ImportantConstats.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="shooter.h" />
