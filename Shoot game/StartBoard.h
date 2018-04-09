@@ -1,5 +1,9 @@
 #pragma once
 #include "WrittenBox.h"
+
+
+
+
 class StartBoard :
 	public WrittenBox
 {

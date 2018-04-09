@@ -6,6 +6,16 @@
 using namespace std;
 
 
+typedef struct textData
+{
+	float x, y, width, height;
+	int fontSize;
+	string text;
+	const char * path;
+	const char * color;
+};
+
+
 class WrittenBox
 {
 public:

@@ -3,13 +3,20 @@
 #include "bullet.h"
 #include "ImportantConstats.h"
 
-class shooterMan : public SpaceShip
+
+
+typedef struct {
+	float x, y, speed, displayH, displayW;
+	const char * sprite;
+}shooterData;
+
+class Shooter : public SpaceShip
 {
 public:
 	
-	shooterMan(float x_, float y_, const char * spritePath, float velocity_, float maxX_, float maxY_)
+	Shooter(float x_, float y_, const char * spritePath, float velocity_, float maxX_, float maxY_)
 		:SpaceShip(x_, y_, velocity_, spritePath, maxX_, maxY_) {}
-	~shooterMan();
+	~Shooter();
 	
 	void update();		// Both update and draw also handle the bullter update and draw
 	void draw();

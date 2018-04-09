@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AllegroClass.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
@@ -147,6 +148,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="ImportantConstats.h" />
     <ClInclude Include="ScoreBoard.h" />
