@@ -7,6 +7,8 @@
 #include "ScoreBoard.h"
 #include "StartBoard.h"
 
+#define HITSPERLEVEL (2)
+
 using namespace std;
 
 typedef struct {
@@ -28,19 +30,29 @@ public:
 	void draw();
 	void setUpShooter(shooterData& dataS, bulletData& dataB);
 	void addMinion(targetData& dataT);
+	void addMinion();
 	void setUpTarget(targetData& dataT);
 	void setUpScoreboard(textData& dataSB);
 	void setUpStartboard(textData& dataSB);
 	
-	Shooter * shooter;
-	vector<Target> minions;
-	Target * target;
+
 
 private:
 	ALLEGRO_BITMAP * background;
+
+	Shooter * shooter;
+	vector<Target> minions;
+	Target * target;
 	ScoreBoard * score;
 	StartBoard * menu;
+
+	targetData * dataMN;
+	targetData * dataT;
+	shooterData * dataS;
+
 	level_t Level;
+
+
 
 };
 

@@ -7,6 +7,7 @@ typedef struct targetData
 {
 	float x, y, speed, displayW, displayH;
 	const char * sprite;
+	float newOffset;
 };
 
 

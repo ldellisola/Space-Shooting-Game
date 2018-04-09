@@ -6,13 +6,6 @@
 #include "Game.h"
 #include "AllegroClass.h"
 
-// Important compiling stuff
-
-#define FONT_C
-//#define AUDIO_C
-#define KEYBOARD_C
-#define MOUSE_C
-#define IMAGE_C
 
 // Important Display Constants
 #define DISPLAYW (1000)
@@ -21,31 +14,10 @@
 // Important Timer Constants
 #define REFRESHRATE (60.0)
 
-// Important Font Constants
-#ifdef FONT_C
-#include <allegro5\allegro_font.h>
-#include <allegro5\allegro_ttf.h>
-#define FONTPATH "path"
-#define FONTSIZE (10)
-#endif
 
-// Important Music Constants
-#ifdef AUDIO_C
-#include <allegro5\allegro_acodec.h>
-#include <allegro5\allegro_audio.h>
-#define SONGPATH "path"
-#define NUMBEROFSAMPLES (1)
-#define VOLUME (1.0)
-#define SONGSPEED (1.0)
-#endif
-
-// Important Image Constants
-#ifdef IMAGE_C
-#include <allegro5\allegro_image.h>
-#endif
 
 // Important Shooter Constants
-#include "shooter.h"
+//#include "shooter.h"
 #define YOFFSET_SHOOTER (DISPLAYH / 10.0)
 #define INITIALX_SHOOTER ((DISPLAYW /2.0))
 #define INITIALY_SHOOTER (DISPLAYH - YOFFSET_SHOOTER)
@@ -58,7 +30,7 @@
 #define XSPEED_BULLET (1.0)
 
 // Important Target Constants
-#include "target.h"
+//#include "target.h"
 #define YOFFSET_TARGET (100)
 #define INITIALX_TARGET (DISPLAYW /2.0)
 #define INITIALY_TARGET (YOFFSET_TARGET)
@@ -72,7 +44,7 @@
 #define SPRITE_STARGET "SecTarget.png"
 
 // Important Scoreboard Constatns
-#include "ScoreBoard.h"
+//#include "ScoreBoard.h"
 #define INITIALX_SCORE (0)
 #define INITIALY_SCORE (0)
 #define WIDTH_SCORE (200)
@@ -82,7 +54,7 @@
 #define FONTCOLOR_SCORE "white"
 
 // Important Scoreboard Constatns
-#include "StartBoard.h"
+//#include "StartBoard.h"
 #define INITIALX_MENU (0)
 #define INITIALY_MENU (DISPLAYH/2.0)
 #define WIDTH_MENU (DISPLAYW)
@@ -92,7 +64,7 @@
 #define FONTCOLOR_MENU "white"
 #define STRING_MENU "Hello there, press 'space' to play..."
 
-#define HITSPERLEVEL (2)
+
 
 
 
@@ -112,10 +84,10 @@ int main()
 	bulletData dataB = { SPRITE_BULLET ,XSPEED_BULLET ,YSPEED_BULLET };
 	game.setUpShooter(dataS, dataB);
 
-	targetData dataT = { INITIALX_TARGET ,INITIALY_TARGET ,SPEED_TARGET,DISPLAYW, DISPLAYH,SPRITE_TARGET };
+	targetData dataT = { INITIALX_TARGET ,INITIALY_TARGET ,SPEED_TARGET,DISPLAYW, DISPLAYH,SPRITE_TARGET,NEW_STARGET_OFFSET };
 	game.setUpTarget(dataT);
 
-	targetData dataST = { INITIALX_STARGET ,INITIALY_STARGET ,SPEED_STARGET,DISPLAYW, DISPLAYH,SPRITE_STARGET };
+	targetData dataST = { INITIALX_STARGET ,INITIALY_STARGET ,SPEED_STARGET,DISPLAYW, DISPLAYH,SPRITE_STARGET,NEW_STARGET_OFFSET };
 	game.addMinion(dataST);
 
 	textData dataSC = { INITIALX_SCORE ,INITIALY_SCORE ,WIDTH_SCORE ,HEIGHT_SCORE,FONTSIZE_SCORE, (string)"",FONTPATH_SCORE,FONTCOLOR_SCORE };
@@ -124,6 +96,7 @@ int main()
 	textData dataM = { INITIALX_MENU ,INITIALY_MENU ,WIDTH_MENU ,HEIGHT_MENU,FONTSIZE_MENU, STRING_MENU,FONTPATH_MENU,FONTCOLOR_MENU };
 	game.setUpStartboard(dataM);
 		
+	bool keep = true;
 
 		while (keep)
 		{
@@ -175,66 +148,10 @@ int main()
 				case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
 					break;
 				case ALLEGRO_EVENT_TIMER:
-					if (!shooter.bulletIsActive())
-						shooter.bulletStartOver();
-					else
-						if (mainTarget.collision(shooter.bulletGetTopLeftX(),shooter.bulletGetTopLeftY(), shooter.bulletGetBotRightX(), shooter.bulletGetBotRightY())) // Tengo que repensar esto. no deberia mandar el objeto
-						{
-							shooter.bulletStartOver();
-							board.updateScore();
-
-							if (!(board.getScore() % HITSPERLEVEL))
-								Level.newLevel();
-						}
-						else
-						{
-							bool reset = false;
-							for (int i = 0; !reset && i < drones.size(); ++i)
-							{
-								if (drones[i].collision(shooter.bulletGetTopLeftX(), shooter.bulletGetTopLeftY(), shooter.bulletGetBotRightX(), shooter.bulletGetBotRightY()))
-								{
-									shooter.bulletStartOver();
-									board.reset();
-									reset = true;
-									int s = drones.size();
-									for (int a = 1; a < s; ++a)
-										drones.pop_back();
-									Level.gameMenu = true;
-									Level.number = 1;
-									Level.newLevelAchieved = false;
-								}
-
-							}
-						}
-					if (Level.newLevelAchieved)
-					{
-						drones.push_back(Target(INITIALX_STARGET, INITIALY_STARGET + NEW_STARGET_OFFSET * (Level.number-1), SPEED_STARGET + 2* Level.number, DISPLAYW, DISPLAYH, SPRITE_STARGET));
-						for (Target& ship : drones)
-							ship.init();			// This is crap and it will eventually affect my program, but i don't think i'll have enought drones to fuck this up
-						Level.newLevelAchieved = false;
-					}
-					if (!Level.gameMenu)
-						shooter.update();
-					
-					al_draw_bitmap(screen, 0, 0, 0);	
-					board.draw();
-					mainTarget.draw();
-					shooter.draw();
-
-					for (Target& ship : drones)
-					{
-						if (!Level.gameMenu)
-						{
-							ship.setMovement();
-							ship.update();
-						}
-						ship.draw();
-					}
-
-					if (Level.gameMenu)
-						menu.draw();
-
-					al_flip_display();
+					game.update();
+					game.draw();
+					allegro.updateDisplay();
+					break;
 				}
 			}
 		}
