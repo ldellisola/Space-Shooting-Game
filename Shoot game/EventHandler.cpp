@@ -1,9 +1,14 @@
 #include "EventHandler.h"
 
-
+bool validKey(int key, int i);
 
 EventHandler::EventHandler()
 {
+	for (Ev_t& ev : events)
+	{
+		ev.deactivate();
+		ev.time = NULL;
+	}
 }
 
 Evnt trasformAllegroEvents(int key)
@@ -47,22 +52,33 @@ bool EventHandler::getEvent(ALLEGRO_EVENT_QUEUE * eq)
 			quit = true;
 		else
 		{
-			setEvent(trasformAllegroEvents(ev.keyboard.keycode), 0);
-			this->events[0].activate();
+			for (int i = 0; i < 2; ++i)
+				if (!this->events[i].active && validKey(ev.keyboard.keycode, i) && !this->events[i].timerExist())
+					setEvent(trasformAllegroEvents(ev.keyboard.keycode), i);
 		}
 
 		break;
 	case ALLEGRO_EVENT_KEY_UP:
 
-		setEvent(KEYFREED, 0);
-		this->events[0].activate();
+		for (int i = 0; i < 2; ++i)
+			if (this->events[i].timerExist() && this->events[i].Event == trasformAllegroEvents(ev.keyboard.keycode))
+				this->events[i].killTimer();
 
 		break;
 	case ALLEGRO_EVENT_TIMER:
 		this->setEvent(TIMER, 2);
 		this->events[2].activate();
 
-
+		for (int i = 0; i < 2; ++i)
+			if (!this->events[i].active && this->events[i].timerExist())
+			{
+				this->events[i].time->stop();
+				if (this->events[i].time->getTime() >= 100)
+				{
+					this->events[i].activate();
+					this->events[i].time->start();
+				}
+			}
 
 		break;
 	case ALLEGRO_EVENT_DISPLAY_CLOSE:
@@ -70,7 +86,64 @@ bool EventHandler::getEvent(ALLEGRO_EVENT_QUEUE * eq)
 		break;
 	}
 
+	if (quit)
+		for (int i = 0; i < 2; i++)
+			if (this->events[i].timerExist())
+				this->events[i].killTimer();
 
 	return !quit;
 }
 
+bool EventHandler::isThereEvent()
+{
+	return this->events[0].active || this->events[1].active || this->events[2].active;
+}
+
+void EventHandler::handleEventDispatcher(Game& game)
+{
+	for (int i = 0; i <this->events.size(); i++)
+	{
+		if (this->events[i].active)
+		{
+			dispatchEvent(this->events[i].Event, game);
+			this->events[i].deactivate();
+		}
+	}
+}
+
+void EventHandler::setEvent(Evnt ev, int element)
+{
+
+	this->events[element].Event = ev;
+
+	if (ev != TIMER)
+		this->events[element].newTimer();
+}
+
+void EventHandler::dispatchEvent(Evnt ev, Game& game)
+{
+	switch (ev)
+	{
+	case LEFTB: game.shooter->bulletMoveLeft(); break;
+	case RIGHTB:game.shooter->bulletMoveRight(); break;
+	case LEFTS:game.shooter->setMovement(MOVELEFT);; break;
+	case RIGHTS:game.shooter->setMovement(MOVERIGHT);; break;
+	case SHOOT: game.shoot(); break;
+	case TIMER: game.update(); game.draw(); break;
+	}
+
+}
+
+bool validKey(int key, int i)
+{
+	bool retValue = false;
+
+	switch (i)
+	{
+	case 0: retValue = (key == ALLEGRO_KEY_LEFT) || (key == ALLEGRO_KEY_RIGHT) || (key == ALLEGRO_KEY_SPACE);
+		break;
+	case 1: retValue = (key == ALLEGRO_KEY_A) || (key == ALLEGRO_KEY_D);
+		break;
+	}
+	return retValue;
+}

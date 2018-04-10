@@ -144,6 +144,7 @@
     <ClCompile Include="SpaceShip.cpp" />
     <ClCompile Include="StartBoard.cpp" />
     <ClCompile Include="target.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WrittenBox.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,7 @@
     <ClInclude Include="SpaceShip.h" />
     <ClInclude Include="StartBoard.h" />
     <ClInclude Include="target.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="WrittenBox.h" />
   </ItemGroup>
   <ItemGroup>

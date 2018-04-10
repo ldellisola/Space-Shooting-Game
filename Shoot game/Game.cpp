@@ -2,8 +2,9 @@
 
 
 
-Game::Game()
+Game::Game(const char * bla)
 {
+	this->background = al_load_bitmap(bla);
 }
 
 
@@ -99,7 +100,7 @@ void Game::addMinion(targetData& dataT)
 
 void Game::addMinion()
 {
-	this->minions.push_back(Target(dataMN->x, dataMN->y + dataMN->newOffset * (this->Level.number - 1), dataMN->speed + 2 * Level.number, dataT->displayW, dataT->displayH, dataT->sprite));
+	this->minions.push_back(Target(dataMN->x, dataMN->y + dataMN->newOffset * (this->Level.number - 1), dataMN->speed + 2 * Level.number, dataMN->displayW, dataMN->displayH, dataMN->sprite));
 
 	for (Target& minion : this->minions)
 		minion.init();
@@ -120,4 +121,16 @@ void Game::setUpStartboard(textData& dataSB)
 {
 	this->menu = new StartBoard(dataSB.x, dataSB.y, dataSB.width, dataSB.height, dataSB.height, dataSB.text, dataSB.path, dataSB.color);
 
+}
+
+void Game::shoot()
+{
+
+	if (!Level.gameMenu)
+	{
+		if (!shooter->bulletIsActive())
+			shooter->bulletFire();
+	}
+	else
+		Level.gameMenu = false;
 }

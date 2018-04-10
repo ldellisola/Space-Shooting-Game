@@ -1,5 +1,7 @@
 #include "AllegroClass.h"
 
+
+
 bool resourcesLoaded(array<bool, LAST>& arr);
 
 AllegroClass::AllegroClass(float displayW_, float displayH_,float fps_)
@@ -7,7 +9,7 @@ AllegroClass::AllegroClass(float displayW_, float displayH_,float fps_)
 
 	if (al_init())
 	{
-		initResources[ALLEGRO] = true;
+		initResources[ALLEGRO_A] = true;
 #ifdef KEYBOARD_C
 		al_install_keyboard();
 #endif
@@ -16,25 +18,25 @@ AllegroClass::AllegroClass(float displayW_, float displayH_,float fps_)
 #endif
 #ifdef IMAGE_C
 		if (al_init_image_addon())
-			initResources[IMAGE] = true;
+			initResources[IMAGE_A] = true;
 #else
 		initResources[IMAGE] = true;
 #endif
 #ifdef DISPLAY_C
 		if (display = al_create_display(displayW_, displayH_))
-			initResources[DISPLAY] = true;
+			initResources[DISPLAY_A] = true;
 #else 
 		initResources[DISPLAY] = true;
 #endif
 #ifdef EVENTS_C
 		if (eventQueue = al_create_event_queue())
-			initResources[EVENTQUEUE] = true;
+			initResources[EVENTQUEUE_A] = true;
 #else 
 		initResources[EVENTQUEUE] = true;
 #endif
 #ifdef TIMER_C
 		if (timer = al_create_timer(1 / fps_))
-			initResources[TIMER] = true;
+			initResources[TIMER_A] = true;
 #else
 		initResources[TIMER] = true;
 #endif
@@ -42,7 +44,7 @@ AllegroClass::AllegroClass(float displayW_, float displayH_,float fps_)
 		al_init_primitives_addon();
 		initResources[PRIMITIVES] = true;
 #else
-		initResources[PRIMITIVES] = true;
+		initResources[PRIMITIVES_A] = true;
 #endif
 
 
@@ -50,8 +52,8 @@ AllegroClass::AllegroClass(float displayW_, float displayH_,float fps_)
 		al_init_font_addon();
 		if (al_init_ttf_addon())
 		{
-			initResources[TTFADDON] = true;
-			initResources[FONT] = true;
+			initResources[TTFADDON_A] = true;
+			initResources[FONT_A] = true;
 		}
 #else
 		initResources[TTFADDON] = true;
@@ -64,8 +66,8 @@ AllegroClass::AllegroClass(float displayW_, float displayH_,float fps_)
 		if (al_init_acodec_addon())
 			initResources[CODEC] = true;
 #else
-		initResources[AUDIO] = true;
-		initResources[CODEC] = true;
+		initResources[AUDIO_A] = true;
+		initResources[CODEC_A] = true;
 #endif
 	}
 
@@ -101,15 +103,15 @@ AllegroClass::~AllegroClass()
 	al_stop_samples();
 #endif
 #ifdef EVENTS_C
-	if (initResources[EVENTQUEUE])
+	if (initResources[EVENTQUEUE_A])
 		al_destroy_event_queue(eventQueue);
 #endif
 #ifdef TIMER_C
-	if (initResources[TIMER])
+	if (initResources[TIMER_A])
 		al_destroy_timer(timer);
 #endif
 #ifdef DISPLAY_C
-	if (initResources[DISPLAY])
+	if (initResources[DISPLAY_A])
 		al_destroy_display(display);
 #endif
 

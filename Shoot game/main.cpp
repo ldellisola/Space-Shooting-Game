@@ -5,6 +5,7 @@
 
 #include "Game.h"
 #include "AllegroClass.h"
+#include "EventHandler.h"
 
 
 // Important Display Constants
@@ -68,17 +69,12 @@
 
 
 
-
-
-
-using namespace std;
-
-
-
 int main()
 {
 	AllegroClass allegro(DISPLAYW,DISPLAYH,REFRESHRATE);
-	Game game;
+	Game game("space.jpg");
+
+	EventHandler eventSystem;
 
 	shooterData dataS = { INITIALX_SHOOTER ,INITIALY_SHOOTER ,SPEED_SHOOTER , DISPLAYH, DISPLAYW,SPRITE_SHOOTER };
 	bulletData dataB = { SPRITE_BULLET ,XSPEED_BULLET ,YSPEED_BULLET };
@@ -94,75 +90,18 @@ int main()
 	game.setUpScoreboard(dataSC);
 
 	textData dataM = { INITIALX_MENU ,INITIALY_MENU ,WIDTH_MENU ,HEIGHT_MENU,FONTSIZE_MENU, STRING_MENU,FONTPATH_MENU,FONTCOLOR_MENU };
-	game.setUpStartboard(dataM);
+	game.setUpStartboard(dataM);;
 		
-	bool keep = true;
 
-		while (keep)
+		while (eventSystem.getEvent(allegro.getEventQueue()))
 		{
-			ALLEGRO_EVENT ev;
-
-			if (al_get_next_event(eventQueue, &ev))
+			if (eventSystem.isThereEvent())
 			{
-				switch (ev.type)
-				{
-				case ALLEGRO_EVENT_DISPLAY_CLOSE:
-					keep = false;
-					break;
-				case ALLEGRO_EVENT_KEY_DOWN:
-					switch (ev.keyboard.keycode)
-					{
-					case ALLEGRO_KEY_SPACE:
-						if (!Level.gameMenu)
-						{
-							if (!shooter.bulletIsActive())
-								shooter.bulletFire();
-						}
-						else
-							Level.gameMenu = false;
-
-						break;
-					case ALLEGRO_KEY_ESCAPE:
-						keep = false;
-						break;
-					case ALLEGRO_KEY_LEFT:
-						shooter.setMovement(MOVELEFT);
-						break;
-					case ALLEGRO_KEY_RIGHT:
-						shooter.setMovement(MOVERIGHT);
-						break;
-					case ALLEGRO_KEY_A:
-						shooter.bulletMoveLeft();
-						break;
-					case ALLEGRO_KEY_D:
-						shooter.bulletMoveRight();
-						break;
-					}
-					break;
-				case ALLEGRO_EVENT_KEY_UP:
-					shooter.setMovement(NOMOVE);
-					shooter.bulletDontMove();
-					break;
-				
-
-				case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-					break;
-				case ALLEGRO_EVENT_TIMER:
-					game.update();
-					game.draw();
-					allegro.updateDisplay();
-					break;
-				}
+				eventSystem.handleEventDispatcher(game);
+				allegro.updateDisplay();
 			}
 		}
 
-
-
-
-
-
-	
-	
 	return 0;
 }
 

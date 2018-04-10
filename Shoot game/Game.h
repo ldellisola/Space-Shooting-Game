@@ -24,7 +24,7 @@ typedef struct {
 class Game
 {
 public:
-	Game();
+	Game(const char * bla);
 	~Game();
 	void update();
 	void draw();
@@ -34,15 +34,18 @@ public:
 	void setUpTarget(targetData& dataT);
 	void setUpScoreboard(textData& dataSB);
 	void setUpStartboard(textData& dataSB);
-	
 
+	void shoot();
+	
+	Shooter * shooter;
+	vector<Target> minions;
+	Target * target;
+	level_t Level;
 
 private:
 	ALLEGRO_BITMAP * background;
 
-	Shooter * shooter;
-	vector<Target> minions;
-	Target * target;
+	
 	ScoreBoard * score;
 	StartBoard * menu;
 
@@ -50,7 +53,7 @@ private:
 	targetData * dataT;
 	shooterData * dataS;
 
-	level_t Level;
+	
 
 
 
