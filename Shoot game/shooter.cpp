@@ -2,7 +2,7 @@
 
 void Shooter::createBullet(const char * spritePath_, float speedX_, float speedY_)
 {
-	this->shot = new bullet(this->x + (this->width / 2.0) + 5, this->y, speedY_, spritePath_, speedX_, this->maxX, this->maxY);
+	this->shot = new bullet(this->x + (this->width / 2.0) , this->y, speedY_, spritePath_, speedX_, this->maxX, this->maxY);
 }
 
 void Shooter::bulletStartOver()

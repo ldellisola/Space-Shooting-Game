@@ -25,20 +25,7 @@ void Target::setMovement()
 
 void Target::draw()
 {
-	switch (this->move)
-	{
-	case MOVERIGHT:
-		al_draw_bitmap(this->bitmap, this->x, this->y, 0);
-		break;
-	case NOMOVE:
-		al_draw_bitmap(this->bitmap, this->x, this->y, 0);
-		break;
-	case MOVELEFT:
-		al_draw_rotated_bitmap(this->bitmap,this->width/2.0 ,this->height/2.0 , this->x + this->width/2.0 , this->y + this->height/2.0, ALLEGRO_PI, 0);
-		break;
-
-	
-	}
+	al_draw_bitmap(this->bitmap, this->x, this->y, (this->move >= 0 ? 0 : ALLEGRO_FLIP_HORIZONTAL));
 }
 
 

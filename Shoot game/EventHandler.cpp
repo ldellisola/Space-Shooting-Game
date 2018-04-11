@@ -133,6 +133,7 @@ void EventHandler::dispatchEvent(Evnt ev, Game& game)
 	case RIGHTS:game.shooter->setMovement(MOVERIGHT);; break;
 	case SHOOT: game.shoot(); break;
 	case TIMER: game.update(); game.draw(); break;
+	default: game.shooter->setMovement(NOMOVE);  game.shooter->bulletDontMove(); break;
 	}
 
 }
