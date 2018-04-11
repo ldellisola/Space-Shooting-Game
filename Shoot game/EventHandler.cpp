@@ -29,6 +29,9 @@ Evnt trasformAllegroEvents(int key)
 	case ALLEGRO_KEY_RIGHT:
 		ev = RIGHTS;
 		break;
+	case ALLEGRO_KEY_SPACE:
+		ev = SHOOT;
+		break;
 	case ALLEGRO_KEY_ESCAPE:
 		ev = QUIT;
 		break;
@@ -73,7 +76,7 @@ bool EventHandler::getEvent(ALLEGRO_EVENT_QUEUE * eq)
 			if (!this->events[i].active && this->events[i].timerExist())
 			{
 				this->events[i].time->stop();
-				if (this->events[i].time->getTime() >= 100)
+				if (this->events[i].time->getTime() >= 10)
 				{
 					this->events[i].activate();
 					this->events[i].time->start();

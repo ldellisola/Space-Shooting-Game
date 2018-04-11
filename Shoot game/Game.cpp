@@ -59,7 +59,7 @@ void Game::update()
 			minion.init();			// This is crap and it will eventually affect my program, but i don't think i'll have enought drones to fuck this up
 		Level.newLevelAchieved = false;
 	}
-	if (!Level.gameMenu)
+	//if (!Level.gameMenu)
 	{
 		this->shooter->update();
 		this->target->update();
@@ -126,11 +126,11 @@ void Game::setUpStartboard(textData& dataSB)
 void Game::shoot()
 {
 
-	if (!Level.gameMenu)
+	//if (!Level.gameMenu)
 	{
 		if (!shooter->bulletIsActive())
 			shooter->bulletFire();
 	}
-	else
-		Level.gameMenu = false;
+	//else
+	//	Level.gameMenu = false;
 }

@@ -9,7 +9,7 @@ using namespace std;
 
 typedef enum Evnt
 {
-	LEFTB, RIGHTB,LEFTS, RIGHTS, NOEVENT, SHOOT, TIMER, QUIT, KEYFREED
+	LEFTB, RIGHTB,LEFTS, RIGHTS, NOEVENT, SHOOT, TIMER, QUIT
 };
 
 typedef struct {
