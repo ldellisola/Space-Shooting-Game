@@ -28,6 +28,7 @@ public:
 	~Game();
 	void update();
 	void draw();
+	void drawMenu();
 	void setUpShooter(shooterData& dataS, bulletData& dataB);
 	void addMinion(targetData& dataT);
 	void addMinion();

@@ -91,6 +91,8 @@ int main()
 
 	textData dataM = { INITIALX_MENU ,INITIALY_MENU ,WIDTH_MENU ,HEIGHT_MENU,FONTSIZE_MENU, STRING_MENU,FONTPATH_MENU,FONTCOLOR_MENU };
 	game.setUpStartboard(dataM);;
+
+	game.drawMenu();
 		
 
 		while (eventSystem.getEvent(allegro.getEventQueue()))

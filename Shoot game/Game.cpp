@@ -5,6 +5,7 @@
 Game::Game(const char * bla)
 {
 	this->background = al_load_bitmap(bla);
+	al_draw_bitmap(this->background, 0, 0, 0);
 }
 
 
@@ -43,11 +44,14 @@ void Game::update()
 					shooter->bulletStartOver();
 					score->reset();
 					minions.clear();
+					Level.number = 1;
 					addMinion(*this->dataMN);
 					reset = true;
 					Level.gameMenu = true;
-					Level.number = 1;
+					
 					Level.newLevelAchieved = false;
+					this->drawMenu();
+					al_flip_display();
 				}
 
 			}
@@ -59,7 +63,7 @@ void Game::update()
 			minion.init();			// This is crap and it will eventually affect my program, but i don't think i'll have enought drones to fuck this up
 		Level.newLevelAchieved = false;
 	}
-	//if (!Level.gameMenu)
+	if (!Level.gameMenu)
 	{
 		this->shooter->update();
 		this->target->update();
@@ -83,6 +87,11 @@ void Game::draw()
 
 	for (Target& minion : this->minions)
 		minion.draw();
+}
+
+void Game::drawMenu()
+{
+	this->menu->draw();
 }
 
 void Game::setUpShooter(shooterData& dataS, bulletData& dataB)
@@ -114,7 +123,7 @@ void Game::setUpTarget(targetData& dataT)
 
 void Game::setUpScoreboard(textData& dataSB)
 {
-	this->score = new ScoreBoard(dataSB.x, dataSB.y, dataSB.width, dataSB.height, dataSB.height, dataSB.text, dataSB.path, dataSB.color);
+	this->score = new ScoreBoard(dataSB.x, dataSB.y, dataSB.width, dataSB.height, dataSB.fontSize, dataSB.text, dataSB.path, dataSB.color);
 }
 
 void Game::setUpStartboard(textData& dataSB)
@@ -126,11 +135,11 @@ void Game::setUpStartboard(textData& dataSB)
 void Game::shoot()
 {
 
-	//if (!Level.gameMenu)
+	if (!Level.gameMenu)
 	{
 		if (!shooter->bulletIsActive())
 			shooter->bulletFire();
 	}
-	//else
-	//	Level.gameMenu = false;
+	else
+		Level.gameMenu = false;
 }
