@@ -41,7 +41,7 @@ void Game::update()
 			{
 				if (minions[i].collision(shooter->bulletGetTopLeftX(), shooter->bulletGetTopLeftY(), shooter->bulletGetBotRightX(), shooter->bulletGetBotRightY()))
 				{
-					shooter->bulletStartOver();
+ 					shooter->bulletStartOver();
 					score->reset();
 					minions.clear();
 					Level.number = 1;
@@ -87,6 +87,9 @@ void Game::draw()
 
 	for (Target& minion : this->minions)
 		minion.draw();
+
+	if (Level.gameMenu)
+		this->menu->draw();
 }
 
 void Game::drawMenu()
@@ -123,12 +126,12 @@ void Game::setUpTarget(targetData& dataT)
 
 void Game::setUpScoreboard(textData& dataSB)
 {
-	this->score = new ScoreBoard(dataSB.x, dataSB.y, dataSB.width, dataSB.height, dataSB.fontSize, dataSB.text, dataSB.path, dataSB.color);
+	this->score = new ScoreBoard(dataSB.x, dataSB.y, dataSB.width, dataSB.height, dataSB.fontSize, dataSB.text, dataSB.path, dataSB.color,"score.txt");
 }
 
 void Game::setUpStartboard(textData& dataSB)
 {
-	this->menu = new StartBoard(dataSB.x, dataSB.y, dataSB.width, dataSB.height, dataSB.height, dataSB.text, dataSB.path, dataSB.color);
+	this->menu = new StartBoard(dataSB.x, dataSB.y, dataSB.width, dataSB.height, dataSB.fontSize, dataSB.text, dataSB.path, dataSB.color);
 
 }
 

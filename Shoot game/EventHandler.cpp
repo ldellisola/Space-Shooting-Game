@@ -134,7 +134,6 @@ void EventHandler::dispatchEvent(Evnt ev, Game& game)
 	case SHOOT: if (!game.Level.gameMenu)game.shoot();
 				else game.Level.gameMenu = false; break;
 	case TIMER: if (!game.Level.gameMenu)game.update(); game.draw(); break;
-	default: game.shooter->setMovement(NOMOVE);  game.shooter->bulletDontMove(); break;
 	}
 
 }

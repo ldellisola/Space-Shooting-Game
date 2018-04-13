@@ -18,16 +18,18 @@ SpaceShip::SpaceShip(float x_, float y_, float velocity_, const char * spritePat
 
 void SpaceShip::init()
 {
-	this->bitmap = al_load_bitmap(this->stringPath);
+	if (this->stringPath)
+		this->bitmap = al_load_bitmap(this->stringPath);
 	this->width = al_get_bitmap_width(this->bitmap);
 	this->x -= this->width / 2.0;
 	this->height = al_get_bitmap_height(this->bitmap);
+	
 }
 
 SpaceShip::~SpaceShip()
 {
-	if (this->bitmap)
-		al_destroy_bitmap(this->bitmap);
+	if (stringPath)				// If string != NULL it means that the class created the bitmap, not the structure and therefor
+		al_destroy_bitmap(this->bitmap);	// It must destroy it
 }
 
 void SpaceShip::draw()

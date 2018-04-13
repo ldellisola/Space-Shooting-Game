@@ -60,10 +60,10 @@
 #define INITIALY_MENU (DISPLAYH/2.0)
 #define WIDTH_MENU (DISPLAYW)
 #define HEIGHT_MENU (300)
-#define FONTSIZE_MENU (50)
+#define FONTSIZE_MENU (30)
 #define FONTPATH_MENU "poke_font.ttf"
 #define FONTCOLOR_MENU "white"
-#define STRING_MENU "Hello there, press 'space' to play..."
+#define STRING_MENU "Hello, press 'space' to play..."
 
 
 
@@ -84,15 +84,14 @@ int main()
 	game.setUpTarget(dataT);
 
 	targetData dataST = { INITIALX_STARGET ,INITIALY_STARGET ,SPEED_STARGET,DISPLAYW, DISPLAYH,SPRITE_STARGET,NEW_STARGET_OFFSET };
+	dataST.loadBitmap();
 	game.addMinion(dataST);
 
 	textData dataSC = { INITIALX_SCORE ,INITIALY_SCORE ,WIDTH_SCORE ,HEIGHT_SCORE,FONTSIZE_SCORE, (string)"",FONTPATH_SCORE,FONTCOLOR_SCORE };
 	game.setUpScoreboard(dataSC);
 
 	textData dataM = { INITIALX_MENU ,INITIALY_MENU ,WIDTH_MENU ,HEIGHT_MENU,FONTSIZE_MENU, STRING_MENU,FONTPATH_MENU,FONTCOLOR_MENU };
-	game.setUpStartboard(dataM);;
-
-	game.drawMenu();
+	game.setUpStartboard(dataM);
 		
 
 		while (eventSystem.getEvent(allegro.getEventQueue()))
@@ -103,6 +102,8 @@ int main()
 				allegro.updateDisplay();
 			}
 		}
+
+
 
 	return 0;
 }
