@@ -9,12 +9,16 @@ class SpaceShip
 public:
 	SpaceShip(float x_, float y_, float velocity_, const char * spritePath, float maxX_, float maxY_);
 	~SpaceShip();
-	void init();
-	void draw();
-	void update();
-	void setMovement(int direction);
-	float getXValue();
-	float getYValue();
+	virtual void init();
+	virtual void draw();
+	virtual void update();
+	virtual void setMovement(int direction);
+	virtual float getXValue();
+	virtual float getYValue();
+	virtual float getWValue();
+	virtual float getHValue();
+	virtual void setCoord(float x_, float y_);
+	virtual bool isMainTarget() = 0;
 	
 
 protected:

@@ -58,4 +58,20 @@ float SpaceShip::getYValue()
 	return this->y;
 }
 
+float SpaceShip::getWValue()
+{
+	return this->width;
+}
+
+float SpaceShip::getHValue()
+{
+	return this->height;
+}
+
+void SpaceShip::setCoord(float x_, float y_)
+{
+	this->x = x_ - this->width/2.0;
+	this->y = y_;
+}
+
 

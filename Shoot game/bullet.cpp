@@ -17,8 +17,8 @@ bullet::bullet(float x_, float y_, float yVelocity_, const char * spritePath, fl
 	this->width = al_get_bitmap_width(this->bitmap);
 	this->height = al_get_bitmap_height(this->bitmap);
 
-	this->x = x_ - this->width / 2.0; 
-	this->y = y_ - this->height / 2.0;
+	this->x = x_; //- this->width / 2.0; 
+	this->y = y_; //- this->height / 2.0;
 
 
 }
@@ -91,4 +91,16 @@ void bullet::draw()
 bullet::~bullet()
 {
 	al_destroy_bitmap(this->bitmap);
+}
+
+bool bullet::collide(float x, float y, float w, float h)
+{
+	bool collision = false;
+
+	if(this->x <= (x + w) && (this->x + this->width) >= x)
+		if( (this->y + this->height >= y) && (this->y) <= (y + h))
+			collision = true;
+	
+
+	return collision;
 }

@@ -64,6 +64,11 @@ void Shooter::draw()
 	this->shot->draw();
 }
 
+bool Shooter::isMainTarget()
+{
+	return false;
+}
+
 bool Shooter::bulletIsActive()
 {
 	return this->shot->isActive();
@@ -87,5 +92,10 @@ float Shooter::bulletGetBotRightX()
 float Shooter::bulletGetBotRightY()
 {
 	return this->shot->getYValue() + this->shot->getHeight();
+}
+
+bullet * Shooter::getBullet()
+{
+	return shot;
 }
 

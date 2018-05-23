@@ -25,14 +25,60 @@ void Game::update()
 
 	if (!shooter->bulletIsActive())
 		shooter->bulletStartOver();
-	else
-		if (target->collision(shooter->bulletGetTopLeftX(), shooter->bulletGetTopLeftY(), shooter->bulletGetBotRightX(), shooter->bulletGetBotRightY()))
-		{
+	else if (shooter->bulletIsActive()) {
+
+		CollisionType colValue = CollisionType::NoCollision;
+		float width = DISPLAYW, height = DISPLAYH;
+		unsigned int lenght = (width > height ? width : height);
+		findNextPower(lenght);
+		float x = 0 , y =0 ;
+		x = x - ((-width + lenght) / 2);
+		y = y - ((-height + lenght) / 2);
+		vector<SpaceShip*> ships;
+
+		float y2 = this->shooter->bulletGetBotRightY();
+
+		ships.push_back(this->target);
+
+		for (int i = 0; i < this->minions.size(); i++) {
+			ships.push_back(&minions[i]);
+		}
+		float pos = shooter->bulletGetBotRightY();
+		float compare = target->getYValue();
+		float alto = target->getHValue();
+		collision(*shooter->getBullet(),ships , lenght, 0,0 , (float) lenght, colValue, 50);
+
+		if (colValue == CollisionType::CollisionPoint) {
 			shooter->bulletStartOver();
 			score->updateScore();
 
 			if (!(score->getScore() % HITSPERLEVEL))
 				Level.newLevel();
+		}
+		else if (colValue == CollisionType::CollisionEnd) {
+
+			bool reset = false;
+			shooter->bulletStartOver();
+			score->reset();
+			shooter->setCoord(INITIALX_SHOOTER, INITIALY_SHOOTER);
+			minions.clear();
+			Level.number = 1;
+			addMinion(*this->dataMN);
+			reset = true;
+			Level.gameMenu = true;
+
+			Level.newLevelAchieved = false;
+			this->drawMenu();
+			al_flip_display();
+		}
+	}
+		/*if (target->collision(shooter->bulletGetTopLeftX(), shooter->bulletGetTopLeftY(), shooter->bulletGetBotRightX(), shooter->bulletGetBotRightY()))
+		{
+		shooter->bulletStartOver();
+		score->updateScore();
+
+		if (!(score->getScore() % HITSPERLEVEL))
+		Level.newLevel();
 		}
 		else
 		{
@@ -43,6 +89,7 @@ void Game::update()
 				{
  					shooter->bulletStartOver();
 					score->reset();
+					shooter->setCoord(INITIALX_SHOOTER, INITIALY_SHOOTER);
 					minions.clear();
 					Level.number = 1;
 					addMinion(*this->dataMN);
@@ -55,7 +102,7 @@ void Game::update()
 				}
 
 			}
-		}
+		}*/
 	if (Level.newLevelAchieved)
 	{
 		addMinion();
@@ -63,16 +110,13 @@ void Game::update()
 			minion.init();			// This is crap and it will eventually affect my program, but i don't think i'll have enought drones to fuck this up
 		Level.newLevelAchieved = false;
 	}
-	if (!Level.gameMenu)
-	{
-		this->shooter->update();
-		this->target->update();
+	this->shooter->update();
+	this->target->update();
 
-		for (Target& minion : minions)
-		{
-			minion.setMovement();
-			minion.update();
-		}
+	for (Target& minion : minions)
+	{
+		minion.setMovement();
+		minion.update();
 	}
 
 }
@@ -87,9 +131,6 @@ void Game::draw()
 
 	for (Target& minion : this->minions)
 		minion.draw();
-
-	if (Level.gameMenu)
-		this->menu->draw();
 }
 
 void Game::drawMenu()
@@ -112,7 +153,7 @@ void Game::addMinion(targetData& dataT)
 
 void Game::addMinion()
 {
-	this->minions.push_back(Target(dataMN->x, dataMN->y + dataMN->newOffset * (this->Level.number - 1), dataMN->speed + 2 * Level.number, dataMN->displayW, dataMN->displayH, dataMN->sprite));
+	this->minions.push_back(Target(dataMN->x, dataMN->y + dataMN->newOffset * (this->Level.number - 1), dataMN->speed + 2 * Level.number, dataMN->displayW, dataMN->displayH, dataMN->sprite, false));
 
 	for (Target& minion : this->minions)
 		minion.init();
@@ -120,7 +161,7 @@ void Game::addMinion()
 
 void Game::setUpTarget(targetData& dataT)
 {
-	this->target = new Target(dataT.x, dataT.y, dataT.speed, dataT.displayW, dataT.displayH, dataT.sprite);
+	this->target = new Target(dataT.x, dataT.y, dataT.speed, dataT.displayW, dataT.displayH, dataT.sprite,true);
 	target->init();
 }
 

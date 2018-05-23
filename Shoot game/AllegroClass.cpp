@@ -42,7 +42,7 @@ AllegroClass::AllegroClass(float displayW_, float displayH_,float fps_)
 #endif
 #ifdef PRIMITIVES_C
 		al_init_primitives_addon();
-		initResources[PRIMITIVES] = true;
+		initResources[PRIMITIVES_A] = true;
 #else
 		initResources[PRIMITIVES_A] = true;
 #endif

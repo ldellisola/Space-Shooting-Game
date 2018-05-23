@@ -21,6 +21,8 @@ public:
 	void update();		// Both update and draw also handle the bullter update and draw
 	void draw();
 
+	bool isMainTarget();
+
 	// Bullet functions
 	void createBullet(const char * spritePath_, float speedX_, float speedY_);
 
@@ -38,6 +40,13 @@ public:
 	float bulletGetTopLeftY();
 	float bulletGetBotRightX();
 	float bulletGetBotRightY();
+
+	bullet * getBullet();
+
+	void setCoord(float x_, float y_) {
+		SpaceShip::setCoord(x_, y_);
+		shot->startOver(this->x - this->shot->getWidth() / 2.0, y_);
+	}
 	
 private:
 	bullet * shot;

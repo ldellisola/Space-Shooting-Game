@@ -127,13 +127,14 @@ void EventHandler::dispatchEvent(Evnt ev, Game& game)
 {
 	switch (ev)
 	{
-	case LEFTB:if (!game.Level.gameMenu) game.shooter->bulletMoveLeft(); break;
-	case RIGHTB:if (!game.Level.gameMenu)game.shooter->bulletMoveRight(); break;
-	case LEFTS:if (!game.Level.gameMenu)game.shooter->setMovement(MOVELEFT);; break;
-	case RIGHTS:if (!game.Level.gameMenu)game.shooter->setMovement(MOVERIGHT);; break;
-	case SHOOT: if (!game.Level.gameMenu)game.shoot();
-				else game.Level.gameMenu = false; break;
-	case TIMER: if (!game.Level.gameMenu)game.update(); game.draw(); break;
+	case LEFTB:game.shooter->bulletMoveLeft(); break;
+	case RIGHTB:game.shooter->bulletMoveRight(); break;
+	case LEFTS:game.shooter->setMovement(MOVELEFT);; break;
+	case RIGHTS:game.shooter->setMovement(MOVERIGHT);; break;
+	case SHOOT:game.shoot();
+				//else game.Level.gameMenu = false;
+				break;
+	case TIMER:game.update(); game.draw(); break;
 	}
 
 }

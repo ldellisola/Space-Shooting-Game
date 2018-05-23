@@ -22,6 +22,8 @@ public:
 	void draw();
 	~bullet();
 
+	bool collide(float x, float y, float w, float h);
+
 	float getXValue();
 	float getYValue();
 	int getWidth();

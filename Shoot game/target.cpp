@@ -28,4 +28,9 @@ void Target::draw()
 	al_draw_bitmap(this->bitmap, this->x, this->y, (this->move >= 0 ? 0 : ALLEGRO_FLIP_HORIZONTAL));
 }
 
+bool Target::isMainTarget()
+{
+	return mainTarget;
+}
+
 
