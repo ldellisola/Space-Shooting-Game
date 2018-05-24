@@ -4,6 +4,7 @@ void removeShips(vector<SpaceShip*>& ships, vector <int> &shipsExist, float y, f
 vector<int> areThereShips(vector<SpaceShip*>& ships, float x, float y, float lenght);
 bool isThereBullet(bullet& bullet, float x, float y, float lenght);
 
+#define prueba 123
 
 void collision(bullet & bullet, vector<SpaceShip*>& ships, int lenght, int x, int y, int size, CollisionType& retValue, int thresholdSize)
 {
